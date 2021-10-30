@@ -4,16 +4,17 @@ $mysqli = include_once "ConexionDB.php";
 
 if (isset($_GET['Id'])) {
     $id = $_GET['Id'];
-    $sentencia = $mysqli->prepare("SELECT v.Id, v.Nombre,v.Caratula, d.Nombre desarrollador, g.Nombre genero, e.Nombre editor, v.Anio, v.metacritic FROM videojuego v
-    INNER JOIN desarrollador d ON d.id=v.IdDesarrollador
-    INNER JOIN genero g ON g.id=v.IdGenero
-    INNER JOIN editor e ON e.Id=v.IdEditor");
+    $sentencia = $mysqli->prepare("SELECT v.Id, v.Nombre,v.Caratula, d.Nombre desarrollador, g.Nombre genero, e.Nombre editor, v.Anio, v.metacritic, v.Descripcion, v.Precio FROM videojuego v
+    INNER JOIN desarrollador d ON d.Id=v.IdDesarrollador
+    INNER JOIN genero g ON g.Id=v.IdGenero
+    INNER JOIN editor e ON e.Id=v.IdEditor
+    WHERE v.Id = ?");
     $sentencia->bind_param("i", $id);
     $sentencia->execute();
     $resultado = $sentencia->get_result();
     $videojuego = $resultado->fetch_assoc();
 
-    $sentencia = $mysqli->prepare("SELECT Id, Nombre, Caratula, Anio, metacritic FROM videojuego
+    $sentencia = $mysqli->prepare("SELECT Id, Nombre, Caratula, Anio, metacritic, Descripcion, Precio FROM videojuego
     WHERE IdGenero = ?");
     $sentencia->bind_param("i", $videojuego['IdGenero']);
     $sentencia->execute();
@@ -41,16 +42,18 @@ if (isset($_GET['Id'])) {
           ?>
         </div>
       </div>
-      <div class="col-lg-6 col-xs-12">
-        <h3><?php echo $videojuego['Nombre'];?></h3>
-        <h5 style="color:#E44C2B";>Genero: <?php echo $videojuego['genero'];?></h5>
-        <h5 style="color:#E44C2B";>Fecha de lanzamiento: <?php echo $videojuego['Anio']?></h5>
-        <h5 style="color:#E44C2B";>Desarrollador: <?php echo $videojuego['desarrollador'];?></h5>
-        <h5 style="color:#E44C2B";>Editor: <?php echo $videojuego['editor'];?></h5>
-        <p style="color:#FBFCFC";>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p style="color:#FBFCFC";>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p style="color:#FBFCFC";>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <h5 style="color:#E44C2B";> Puntuacion: <?php echo $videojuego ['metacritic'];?></h5>
+      <div class="col-lg-6 col-xs-12" style="color:#EAEDED">
+
+        <h3><u><?php echo $videojuego['Nombre'];?></u></h3>
+        <h5>Genero: <?php echo $videojuego['genero'];?></h5>
+        <h5>Fecha de lanzamiento: <?php echo $videojuego['Anio']?></h5>
+        <h5>Desarrollador: <?php echo $videojuego['desarrollador'];?></h5>
+        <h5>Editor: <?php echo $videojuego['editor'];?></h5>
+        <p><?php echo $videojuego['Descripcion'];?></p>
+        <h5>Precio: $ <?php echo $videojuego['Precio'];?> </h5>
+
+        <h5> Puntuacion: <?php echo $videojuego ['metacritic'];?></h5>
+        <p></p>
         <form class="" action="Compra.php" method="get">
           <div class="row">
             <div class="col-2">

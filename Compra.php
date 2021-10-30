@@ -22,7 +22,7 @@ if (isset($_GET['borrarcarro'])) {
     $_SESSION['resImporte'] = $resImporte;
   }
   if (isset($_GET['Id'])) {
-    $sentencia = $mysqli->prepare("SELECT Id, Nombre, Caratula
+    $sentencia = $mysqli->prepare("SELECT Id, Nombre, Caratula, Precio
     FROM videojuego
     WHERE Id = ?");
     $sentencia->bind_param("i", $_GET['Id']);
@@ -33,9 +33,11 @@ if (isset($_GET['borrarcarro'])) {
     array_push($_SESSION['resNombre'],$reserva['Nombre']);
     array_push($_SESSION['resCaratula'],$reserva['Caratula']);
     array_push($_SESSION['resCantidad'],$_GET['cantidad']);
-    array_push($_SESSION['resImporte'],100);
+    array_push($_SESSION['resImporte'],$reserva['Precio']);
   }
 ?>
+
+
 
 <table style="color:#FBFCFC" class="table table-striped";>
   <thead>
@@ -67,6 +69,7 @@ if (isset($_GET['borrarcarro'])) {
   <a href="Compra.php?borrarcarro=True" class="btn btn-success">Borrar Carro</a>
   <a href="EnviarVideojuego.php" class="btn btn-success">Reservar</a>
 </div>
+
 
 
 <?php include_once "pie.php";?>

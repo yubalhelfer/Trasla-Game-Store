@@ -50,8 +50,9 @@
 
 <div class="row">
   <div class="col-12">
-    <h1>Registrar Usuario</h1>
-    <form action="RegistrarUsuario.php" method="POST">
+    <h1 style="color:#FBFCFC">Registrar Usuario</h1>
+    <form action="RegistrarUsuario.php" method="POST" style="color:#FBFCFC">
+
       <div class="form-group">
         <label for="nombre">Nombre</label>
         <input value="<?php echo $nombre; ?>" placeholder="Apellido y nombres" class="form-control" type="text" name="nombre" id="nombre" required>
